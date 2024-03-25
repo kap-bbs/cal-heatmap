@@ -48,6 +48,7 @@
     "d3-transition": "^3.0.1",
     "dayjs": "^1.11.7",
     "eventemitter3": "^5.0.0",
+    "jalaliday": "^2.3.0",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import jalaliday from 'jalaliday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
 import weekday from 'dayjs/plugin/weekday';
@@ -30,11 +31,12 @@ dayjs.extend(timezone);
 dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
 dayjs.extend(updateLocale);
+dayjs.extend(jalaliday);
 
-const DEFAULT_LOCALE = 'en';
+const DEFAULT_LOCALE = 'fa';
 
 export default class DateHelper {
-  locale: OptionsType['date']['locale'];
+  locale: 'fa';
 
   timezone: string;
 
@@ -48,29 +50,6 @@ export default class DateHelper {
 
   async setup({ options }: { options: OptionsType }) {
     this.timezone = options.date.timezone || dayjs.tz.guess();
-    const userLocale = options.date.locale;
-
-    if (typeof userLocale === 'string' && userLocale !== DEFAULT_LOCALE) {
-      let locale;
-      if (typeof window === 'object') {
-        locale =
-          (window as any)[`dayjs_locale_${userLocale}`] ||
-          (await this.loadBrowserLocale(userLocale));
-      } else {
-        locale = await this.loadNodeLocale(userLocale);
-      }
-      dayjs.locale(userLocale);
-      this.locale = locale;
-    }
-
-    if (typeof userLocale === 'object') {
-      if (userLocale.hasOwnProperty('name')) {
-        dayjs.locale(userLocale.name, userLocale);
-        this.locale = userLocale;
-      } else {
-        this.locale = dayjs.updateLocale(DEFAULT_LOCALE, userLocale);
-      }
-    }
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -157,8 +136,7 @@ export default class DateHelper {
     }
 
     return dayjs(d)
-      .tz(this.timezone)
-      .utcOffset(0)
+      .calendar('jalali')
       .locale(this.locale as (typeof Ls)[0] | string);
   }
 
