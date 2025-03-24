@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import jalaliday from 'jalaliday';
+import jalaliday from '@zoomit/dayjs-jalali-plugin';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
 import weekday from 'dayjs/plugin/weekday';
